@@ -30,15 +30,7 @@ Vue.component('product', {
                 >
                 </div>
 
-                <button 
-                    v-on:click="addToCart" 
-                    :disabled="!inStock"
-                    :class="{ disabledButton: !inStock}"
-                >Add to Cart</button>
-
-                <div class="cart">
-                    <p>Cart({{ cart }})</p>
-                </div>
+                <button :class="{ disabledButton: !inStock }" v-on:click="addToCart" :disabled="!inStock">Add to Cart</button>
             </div>
         </div>
 
@@ -63,12 +55,11 @@ Vue.component('product', {
                     ariantQuantity: 0,
                 },
             ],
-            cart: 0,
         }
     },
     methods: {
         addToCart(){
-            this.cart++
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId )
         },
         updateProduct(index){
             this.selectedVariant = index
@@ -98,6 +89,12 @@ var app = new Vue({
     data(){
         return{
             premium: false,
+            cart: [],
+        }
+    },
+    methods:{
+        updateCart(id) {
+            this.cart.push(id)
         }
     }
 })
